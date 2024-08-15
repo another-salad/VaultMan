@@ -52,7 +52,12 @@ Function Get-VaultManSecureStringFromVault {
     [CmdletBinding()]
     param (
         [string]$SecretName,
-        [string]$VaultName
+        [string]$VaultName,
+        [switch]$AsPlainText
     )
-    Get-Secret -Name $SecretName -Vault $VaultName
+    $secret = Get-Secret -Name $SecretName -Vault $VaultName
+    if ($AsPlainText) {
+        $secret = $secret | ConvertFrom-SecureString -AsPlainText
+    }
+    $Secret
 }

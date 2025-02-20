@@ -1,11 +1,7 @@
-
-Import-Module Microsoft.PowerShell.SecretManagement
-Import-Module Microsoft.PowerShell.SecretStore
-
 ## Secret vault fun
 # https://learn.microsoft.com/en-us/powershell/utility-modules/secretmanagement/get-started/using-secretstore?view=ps-modules
 
-Function Set-VaultManNonInteractiveVault {
+Function Register-VaultManNonInteractiveVault {
     [CmdletBinding()]
     param (
         [string]$VaultName
@@ -16,10 +12,10 @@ Function Set-VaultManNonInteractiveVault {
     # prompted for this again.
     Write-Warning "This will set ALL VAULTS to non-interactive, no authentication mode. Think about this wisely."
     Set-SecretStoreConfiguration -Interaction None -Authentication None -Scope CurrentUser
-    Set-VaultManVault -vaultName $VaultName
+    Register-VaultManVault -vaultName $VaultName
 }
 
-Function Set-VaultManVault {
+Function Register-VaultManVault {
     [CmdletBinding()]
     param (
         [string]$VaultName
@@ -28,7 +24,7 @@ Function Set-VaultManVault {
     Get-SecretVault -Name $VaultName
 }
 
-Function Set-VaultManSecureStringToVault {
+Function Set-VaultManSecret {
     [CmdletBinding()]
     param (
         [string]$SecretName,
@@ -38,17 +34,17 @@ Function Set-VaultManSecureStringToVault {
     Set-Secret -Name $SecretName -Secret $SecretValue -Vault $VaultName
 }
 
-Function Set-VaultManSecureStringToVaultInteractive {
+Function Set-VaultManSecretInteractive {
     [CmdletBinding()]
     param (
         [string]$SecretName,
         [string]$VaultName
     )
     $SecretValue = Read-Host -Prompt "Enter secret value" -AsSecureString
-    Set-VaultManSecureStringToVault -SecretName $SecretName -VaultName $VaultName -SecretValue $SecretValue
+    Set-VaultManSecret -SecretName $SecretName -VaultName $VaultName -SecretValue $SecretValue
 }
 
-Function Get-VaultManSecureStringFromVault {
+Function Get-VaultManSecret {
     [CmdletBinding()]
     param (
         [string]$SecretName,

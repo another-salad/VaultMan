@@ -1,0 +1,28 @@
+name: Publish to PSGallery
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'vaultman/**'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Powershell deps
+        shell: pwsh
+        run: |
+          Install-Module Microsoft.PowerShell.SecretManagement -Force -Scope CurrentUser
+          Install-Module Microsoft.PowerShell.SecretStore -Force -Scope CurrentUser
+
+      - name: Publish to PSGallery
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGGETS }}
+        run: |
+          Publish-Module -Path ./vaultman -NuGetApiKey $env:NUGET_API_KEY

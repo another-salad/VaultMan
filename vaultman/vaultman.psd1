@@ -12,7 +12,7 @@
 RootModule = 'vaultman.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.6'
+ModuleVersion = '0.1.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -125,11 +125,7 @@ PrivateData = @{
         # RequireLicenseAcceptance = $false
 
         # External dependent modules of this module
-        # NOTE(Another-Salad): This is purely a hack for my local posh repo.
-        ExternalModuleDependencies = @(
-            "Microsoft.PowerShell.SecretManagement",
-            "Microsoft.PowerShell.SecretStore"
-        )
+        # ExternalModuleDependencies = @()
 
     } # End of PSData hashtable
 
